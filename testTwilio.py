@@ -66,7 +66,7 @@ def bot():
 
     print(name,media_msg)
     print(number, status)
-    print("Latitud:",message_latitude,"\nLongitud:",message_longitude)
+    #print("Latitud:",message_latitude,"\nLongitud:",message_longitude)
     
     if 'hola' in user_msg:
         msg.body("¡Hola "+name+"!\n Y bienvenido a este bot "+"\U0001F916"+" de ayuda para WhatsApp.\n ¿Como puedo ayudarte?\nToma en cuenta estas opciones\n1.- Para saber que es Machine Learning\n2.-Procesamiento de imagenes\n3.- Contar un chiste\n4.- Archivos clasificados de la NASA\n5.-¿Quieres construir la IA que domine el mundo? Envía <<si>> para confirmar\n")

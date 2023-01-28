@@ -50,7 +50,12 @@ def bot():
     
     number = request.form.get('From')
     name = request.form.get("ProfileName")
-    media_msg = request.form.get('NumMedia')   
+    media_msg = request.form.get('NumMedia')  
+    media_msg_type = request.form.get('MediaContentType0')
+    
+    if (media_msg >= 0 and media_msg_type == 'video/mp4'):
+        media_msg_url = request.form.get('MediaUrl0')
+
     #message_latitude = request.values.get('Latitude')
     #message_longitude = request.values.get('Longitude')
     status = request.values.get('SmsStatus')

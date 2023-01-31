@@ -53,11 +53,15 @@ def bot():
     media_msg = request.form.get('NumMedia')  
     media_msg_type = request.form.get('MediaContentType0')
     
-    if(media_msg >= 1 and media_msg_type == 'video/mp4'):
+    if(media_msg == 1 and media_msg_type == 'video/mp4'):
         media_msg_url = request.form.get('MediaUrl0')
+        analysis_server_url = "https://rolplay.net/rp-whatsapp/es/conf/answer/whatsapp/process.php"
+        response = requests.post(analysis_server_url, data={'video_url': media_msg_url})
+
+        print(media_msg_url)
     else:
-        print("Sólo aceptamos archivos MP4")
-        msg.body("Sólo aceptamos archivos MP4")
+        #print("Sólo aceptamos archivos MP4")
+        msg.body("Sólo aceptamos archivos MP4\n")
         
 
     #message_latitude = request.values.get('Latitude')

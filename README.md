@@ -9,3 +9,7 @@ Para que el proyecto se pueda ejecutar correctamente se necesita activar el ento
 Por si ejecutas el webhook desde ngrok
 
 ngrok http 5000
+
+Para instalar las librerias del entorno:
+
+pip3 freeze > requirements.txt

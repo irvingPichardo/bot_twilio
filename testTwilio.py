@@ -53,23 +53,27 @@ def bot():
     media_msg = request.form.get('NumMedia')  
     media_msg_type = request.form.get('MediaContentType0')
     
-    if(media_msg == 1 and media_msg_type == 'video/mp4'):
+    if(int(media_msg) == 1 and media_msg_type == 'video/mp4'):
         media_msg_url = request.form.get('MediaUrl0')
         analysis_server_url = "https://rolplay.net/rp-whatsapp/es/conf/answer/whatsapp/process.php"
-        response = requests.post(analysis_server_url, data={'video_url': media_msg_url})
+        response = requests.post(analysis_server_url, data={'video_type': media_msg_type,'video_url': media_msg_url})
         
         print("\n\n\n")
         print(media_msg_url)
+        print(response.json())
+        #msg.body('status_message')
+        
+        
     else:
-        #print("Sólo aceptamos archivos MP4")
-        msg.body("Sólo aceptamos archivos MP4\n")
+        print("Sólo aceptamos archivos MP4")
+        #msg.body("Sólo aceptamos archivos MP4\n")
         
 
     #message_latitude = request.values.get('Latitude')
     #message_longitude = request.values.get('Longitude')
     status = request.values.get('SmsStatus')
 
-    print(request.form)
+    #print(request.form)
     a=str(request.form)
     f = open('twilio.txt','a')
     f.write('\n' + a)
@@ -78,8 +82,7 @@ def bot():
     #created = request.values.get('date_created')
     #print("Se creó:",created)
 
-    print(name,media_msg)
-    print(number, status)
+ 
     #print("Latitud:",message_latitude,"\nLongitud:",message_longitude)
     
     if 'hola' in user_msg:
@@ -137,7 +140,6 @@ def bot():
     else:
         msg.body("\nLo siento "+name+". \n No entiendo lo que tratas de decir "+"\U0001F601")
     return str(bot_resp)
-
 
 
 if __name__ == '__main__':

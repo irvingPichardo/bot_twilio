@@ -57,7 +57,8 @@ def bot():
         media_msg_url = request.form.get('MediaUrl0')
         analysis_server_url = "https://rolplay.net/rp-whatsapp/es/conf/answer/whatsapp/process.php"
         response = requests.post(analysis_server_url, data={'video_url': media_msg_url})
-
+        
+        print("\n\n\n")
         print(media_msg_url)
     else:
         #print("Sólo aceptamos archivos MP4")

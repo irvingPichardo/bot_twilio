@@ -2,6 +2,7 @@
 This a API project bot with Twilio, Flask and Python
 
 Para que el proyecto se pueda ejecutar correctamente se necesita activar el entorno virtual con el siguiente comando.
+python3 -m venv venv
 
 . ./venv/bin/activate
 
@@ -13,3 +14,6 @@ ngrok http 5000
 Para instalar las librerias del entorno:
 
 pip3 freeze > requirements.txt
+
+SQLite3
+pip3 install pysqlite

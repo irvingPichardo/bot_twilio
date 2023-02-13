@@ -20,15 +20,22 @@ def create_table():
               message_body TEXT, media_msg_type TEXT, message_status TEXT, smsstatus TEXT, 
               message_media_url TEXT, timestamp TEXT)''')
     conn.commit()
+    
     conn.close()
 
 def save_data(message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp):
     conn = sqlite3.connect('instance/twilio_data.db')
     c = conn.cursor()
-    c.execute("INSERT INTO twilio_data (message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp) VALUES (?,?,?,?,?,?,?,?,?,?,?)", 
-                                        (message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp))
-    conn.commit()
-    conn.close()    
+    
+    try:
+        c.execute("INSERT INTO twilio_data (message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp) VALUES (?,?,?,?,?,?,?,?,?,?,?)", 
+            (message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp))
+        conn.commit()
+        return True
+    except:
+        return False
+    finally:
+        conn.close()        
 
 
 @app.route('/bot', methods=['POST'])
@@ -77,10 +84,11 @@ def bot():
     f.close()
 
     # Save the values to the database
-    save_data(message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp)
-
-    return 'Data saved successfully'
-
+    if save_data(message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp):
+        return jsonify({'message': 'Data saved successfully'}), 201
+    else:
+        return jsonify({'message': 'Data saving failed'}), 500
+    
     
     
     if 'hola' in message_body:

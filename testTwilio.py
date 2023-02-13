@@ -3,7 +3,6 @@ from crypt import methods
 from flask import Flask, request, jsonify
 import requests,json
 from twilio.twiml.messaging_response import MessagingResponse
-from flask_sqlalchemy import SQLAlchemy
 import os
 import sqlite3
 import datetime

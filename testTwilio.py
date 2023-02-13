@@ -6,25 +6,27 @@ from twilio.twiml.messaging_response import MessagingResponse
 from flask_sqlalchemy import SQLAlchemy
 import os
 import sqlite3
+import datetime
 
 
 ## Init Flask APp
 app = Flask(__name__)
 
 def create_table():
-    conn = sqlite3.connect('twilio_data.db')
+    conn = sqlite3.connect('instance/twilio_data.db')
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS twilio_data (id INTEGER PRIMARY KEY, message_sid TEXT, 
               account_sid TEXT, from_number TEXT, to_number TEXT, media_msg TEXT,
               message_body TEXT, media_msg_type TEXT, message_status TEXT, smsstatus TEXT, 
-              message_media_url TEXT, joiningDate timestamp)''')
+              message_media_url TEXT, timestamp TEXT)''')
     conn.commit()
     conn.close()
 
-def save_data(message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url):
-    conn = sqlite3.connect('twilio_data.db')
+def save_data(message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp):
+    conn = sqlite3.connect('instance/twilio_data.db')
     c = conn.cursor()
-    c.execute("INSERT INTO twilio_data (message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url) VALUES (?,?,?,?,?,?,?,?,?,?)", (message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url))
+    c.execute("INSERT INTO twilio_data (message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp) VALUES (?,?,?,?,?,?,?,?,?,?,?)", 
+                                        (message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp))
     conn.commit()
     conn.close()    
 
@@ -47,6 +49,8 @@ def bot():
     message_status = request.form.get('MessageStatus')
     smsstatus = request.values.get('SmsStatus')
     message_media_url = request.form.get('MediaUrl0')
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
 
     name = request.form.get("ProfileName")   
 
@@ -73,7 +77,7 @@ def bot():
     f.close()
 
     # Save the values to the database
-    save_data(message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url)
+    save_data(message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp)
 
     return 'Data saved successfully'
 

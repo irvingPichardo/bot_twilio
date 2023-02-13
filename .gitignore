@@ -1,2 +1,2 @@
-twilio.txt
-venv
+*twilio.txt
+/venv

@@ -18,13 +18,12 @@ def create_table():
               account_sid TEXT, from_number TEXT, to_number TEXT, media_msg TEXT,
               message_body TEXT, media_msg_type TEXT, message_status TEXT, smsstatus TEXT, 
               message_media_url TEXT, timestamp TEXT)''')
-    conn.commit()
-    
-    conn.close()
+    conn.commit() 
+    conn.close() 
 
 def save_data(message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp):
     conn = sqlite3.connect('instance/twilio_data.db')
-    c = conn.cursor()
+    c = conn.cursor() 
     
     try:
         c.execute("INSERT INTO twilio_data (message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp) VALUES (?,?,?,?,?,?,?,?,?,?,?)", 
@@ -57,7 +56,6 @@ def bot():
     message_media_url = request.form.get('MediaUrl0')
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-
     name = request.form.get("ProfileName")   
 
 
@@ -84,9 +82,13 @@ def bot():
 
     # Save the values to the database
     if save_data(message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp):
-        return jsonify({'message': 'Data saved successfully'}), 201
+        return jsonify({'status_code':201,'message': 'Data saved successfully'})
+    elif():
+        return jsonify({'status_code':400,'message': 'Data user failed'})
+    elif():
+        return jsonify({'status_code':404,'message': 'Data user failed'})
     else:
-        return jsonify({'message': 'Data saving failed'}), 500
+        return jsonify({'status_code':500,'message': 'Data saving failed'})
     
     
     

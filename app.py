@@ -58,7 +58,6 @@ def bot():
 
     name = request.form.get("ProfileName")   
 
-
     
     if(int(media_msg) == 1 and media_msg_type == 'video/mp4'):
         #message_media_url = request.form.get('MediaUrl0')
@@ -73,7 +72,6 @@ def bot():
         print("Sólo aceptamos archivos MP4")
         #msg.body("Sólo aceptamos archivos MP4\n")
         
-
     #print(request.form)
     a=str(request.form)
     f = open('twilio.txt','a')
@@ -89,7 +87,6 @@ def bot():
         return jsonify({'status_code':404,'message': 'Data user failed'})
     else:
         return jsonify({'status_code':500,'message': 'Data saving failed'})
-    
     
     
     if 'hola' in message_body:

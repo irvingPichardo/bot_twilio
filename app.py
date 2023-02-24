@@ -64,13 +64,37 @@ def bot():
         analysis_server_url = "https://rolplay.net/rp-whatsapp/es/conf/answer/whatsapp/process.php"
         response = requests.post(analysis_server_url, data={'video_type': media_msg_type,'video_url': message_media_url})
         
-        print("\n\n\n")
-        print(message_media_url)
-        print(response.json())
-        #msg.body('status_message')
+        if response.status_code == 200:
+            # Acción para código 200
+            # Se extrae el status_message de la respuesta
+            #
+            #status_message = response.json().get('status_message')
+
+            # Se envía un mensaje al "body" de Twilio con el status_message
+            #msg.body(status_message)
+            print("\n\n\n")
+            print(message_media_url)
+            print("\n\n\n")
+            print(response.json())
+            msg.body("Petición realizada con éxito")
+            #return 'Petición realizada con éxito'
+        elif response.status_code == 400:
+            # Acción para código 400
+            msg.body("Petición incorrecta")
+            #return 'Petición incorrecta'
+        elif response.status_code == 404:
+            # Acción para código 404
+            msg.body("No se ha podido realizar la solicitud")
+            #return 'Recurso no encontrado'
+        else:
+            # Acción para cualquier otro código
+             # Si la petición no fue exitosa, se envía un mensaje de error al "body" de Twilio
+            msg.body("Ha ocurrido un error en la petición al servidor externo.")
+        return str(bot_resp)
+    
     else:
         print("Sólo aceptamos archivos MP4")
-        #msg.body("Sólo aceptamos archivos MP4\n")
+        msg.body("Sólo aceptamos archivos MP4\n")
         
     #print(request.form)
     a=str(request.form)
@@ -78,6 +102,7 @@ def bot():
     f.write('\n' + a)
     f.close()
 
+    '''
     # Save the values to the database
     if save_data(message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp):
         return jsonify({'status_code':201,'message': 'Data saved successfully'})
@@ -87,7 +112,7 @@ def bot():
         return jsonify({'status_code':404,'message': 'Data user failed'})
     else:
         return jsonify({'status_code':500,'message': 'Data saving failed'})
-    
+    '''
     
     if 'hola' in message_body:
         msg.body("¡Hola "+name+"!\n Y bienvenido a este bot "+"\U0001F916"+" de ayuda para WhatsApp.\n ¿Como puedo ayudarte?\nToma en cuenta estas opciones\n1.- Para saber que es Machine Learning\n2.-Procesamiento de imagenes\n3.- Contar un chiste\n4.- Archivos clasificados de la NASA\n5.-¿Quieres construir la IA que domine el mundo? Envía <<si>> para confirmar\n")

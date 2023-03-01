@@ -69,32 +69,39 @@ def bot():
             # Se extrae el status_message de la respuesta
             #
             #status_message = response.json().get('status_message')
-
             # Se envía un mensaje al "body" de Twilio con el status_message
             #msg.body(status_message)
             print("\n\n\n")
             print(message_media_url)
             print("\n\n\n")
             print(response.json())
-            msg.body("Petición realizada con éxito")
+            msg.body("Se ha recibido tu vídeo con éxito.")
             #return 'Petición realizada con éxito'
+        elif response.status_code == 201:
+            print("")
+        elif response.status_code == 204:
+            print("")
         elif response.status_code == 400:
             # Acción para código 400
-            msg.body("Petición incorrecta")
+            msg.body("Lo siento, tu archivo  no se ha podido procesar o no es el solicitado.")
             #return 'Petición incorrecta'
+        
         elif response.status_code == 404:
             # Acción para código 404
-            msg.body("No se ha podido realizar la solicitud")
+            msg.body("Ha ocurrido un error, comunicate con el servicio técnico de RolPlay.")
             #return 'Recurso no encontrado'
+        elif response.status_code == 429:
+            # Acción para código 400
+            msg.body("El sistema se ha saturado, pedimos espere unos momentos.")
         else:
             # Acción para cualquier otro código
              # Si la petición no fue exitosa, se envía un mensaje de error al "body" de Twilio
-            msg.body("Ha ocurrido un error en la petición al servidor externo.")
+            msg.body("Ha ocurrido un error ajeno al servidor externo, comunicate con el servicio técnico de RolPlay.")
         return str(bot_resp)
     
     else:
-        print("Sólo aceptamos archivos MP4")
-        msg.body("Sólo aceptamos archivos MP4\n")
+        #print("Sólo aceptamos archivos MP4")
+        msg.body("Sólo aceptamos archivos en formato de vídeo.\n")
         
     #print(request.form)
     a=str(request.form)
@@ -102,8 +109,11 @@ def bot():
     f.write('\n' + a)
     f.close()
 
-    '''
+    
     # Save the values to the database
+    
+    save_data(message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp)
+    '''
     if save_data(message_sid, account_sid, from_number, to_number, media_msg, message_body, media_msg_type, message_status, smsstatus, message_media_url, timestamp):
         return jsonify({'status_code':201,'message': 'Data saved successfully'})
     elif():

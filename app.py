@@ -78,12 +78,12 @@ def bot():
             msg.body("Se ha recibido tu vídeo con éxito.")
             #return 'Petición realizada con éxito'
         elif response.status_code == 201:
-            print("")
+            print("Se ha almacenado tu archivo multimedia, en espera de ser analizado.")
         elif response.status_code == 204:
-            print("")
+            print("Hay un problema como tu archivo, te pedimos que vuelvas a enviarlo.")
         elif response.status_code == 400:
             # Acción para código 400
-            msg.body("Lo siento, tu archivo  no se ha podido procesar o no es el solicitado.")
+            msg.body("Lo siento, tu archivo multimedia no se ha podido procesar o no es el solicitado.")
             #return 'Petición incorrecta'
         
         elif response.status_code == 404:
